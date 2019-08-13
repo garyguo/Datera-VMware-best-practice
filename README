@@ -38,10 +38,10 @@ Features
         2.   Start Powershell console 
         3.   Connect to vCenter from powercli console either on Windows, or MacOS, or Ubuntu
              Windows: 
-	     	PowerCLI C:\> Connect-VIServer -Server <vCenter server IP or FQDN>
+	     	PowerCLI C:\> Connect-VIServer -Server <vCenter server IP or FQDN> -Force
 	     MacOS or Ubuntu:
-             	PS /home/ghg> Connect-VIServer -Server <vCenter server IP or FQDN> -force
-
+             	PS /home/ghg> Connect-VIServer -Server <vCenter server IP or FQDN> -Force
+	     (the -Force parameter is only required if VCSA does not have proper SSL certificates) 
         4.   Display 4 parameters on all ESXi hosts managed by vCenter   
 	     Windows:
               	PowerCLI C:<path_to_the_script>\Datera_VMWare_setup.ps1
@@ -52,7 +52,7 @@ Features
 	     Windows:
               	PowerCLI C:<path_to_the_script>\Datera_VMWare_setup.ps1 -Update yes 
 	     MacOS or Ubuntu:
-		PS /home/ghg> ./Datera_VMWare_setup.ps1   
+		PS /home/ghg> ./Datera_VMWare_setup.ps1 -Update yes
         
 	### Tested environments ###
 	We did test the script in the following environments:
@@ -105,3 +105,8 @@ PSPOptions   : iops=1
 RuleGroup    : user
 Transport    :
 Vendor       : DATERA
+
+Q: Why is the script skipping some of my ESXi hosts?
+A: The script will purposefully skip ESXi host(s) that have iSCSI targets configured,
+   to avoid damaging your ESXi server configuration. This script is intended to be run
+   when a new ESXi host is added to vCenter Server.
